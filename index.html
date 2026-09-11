@@ -70,19 +70,19 @@ button:active{transform:scale(.98)}
 <body>
 <div class="app">
   <div class="header">
-    <h1>ð Morgonrutiner</h1>
-    <div class="subtitle">En sak i taget. Du klarar det! â¤ï¸</div>
-    <div class="total-wrap"><div id="total" class="timer">â±ï¸ 00:00</div></div>
+    <h1>&#127774; Morgonrutiner</h1>
+    <div class="subtitle">En sak i taget. Du klarar det! &#10084;&#65039;</div>
+    <div class="total-wrap"><div id="total" class="timer">&#9201;&#65039; 00:00</div></div>
     <div class="progress"><span id="bar"></span></div>
     <div class="progress-label"><span id="progressText">Redo?</span><span id="percent">0%</span></div>
     <div id="dots" class="dots"></div>
   </div>
 
   <section id="welcome" class="card">
-    <div class="icon">ð</div>
+    <div class="icon">&#128640;</div>
     <div class="name">Dags att starta!</div>
-    <p class="hint">Vi tar en sak i taget. NÃ¤r du Ã¤r klar trycker du pÃ¥ <b>KLAR!</b></p>
-    <button id="start" class="start">STARTA MORGONEN ð</button>
+    <p class="hint">Vi tar en sak i taget. N&#228;r du &#228;r klar trycker du p&#229; <b>KLAR!</b></p>
+    <button id="start" class="start">STARTA MORGONEN &#128640;</button>
   </section>
 
   <section id="stepCard" class="card hidden">
@@ -90,32 +90,32 @@ button:active{transform:scale(.98)}
     <div id="icon" class="icon"></div>
     <div id="name" class="name"></div>
     <div id="hint" class="hint"></div>
-    <div class="time-label">TID PÃ DET HÃR STEGET</div>
+    <div class="time-label">TID P&#197; DET H&#196;R STEGET</div>
     <div id="stepTimer" class="stepTimer">00:00</div>
-    <button id="done" class="done">â KLAR!</button>
-    <button id="skip" class="skip">Hoppa Ã¶ver</button>
+    <button id="done" class="done">&#10003; KLAR!</button>
+    <button id="skip" class="skip">Hoppa &#246;ver</button>
   </section>
 
   <section id="finish" class="card finish hidden">
-    <div class="icon">ð</div>
-    <div class="finish-title">Morgonen Ã¤r klar!</div>
-    <p class="celebrate">Du fixade hela morgonen! â­ï¸</p>
-    <div id="miniStars" class="mini-stars">â­ï¸ â­ï¸ â­ï¸ â­ï¸ â­ï¸ â­ï¸</div>
+    <div class="icon">&#127881;</div>
+    <div class="finish-title">Morgonen &#228;r klar!</div>
+    <p class="celebrate">Du fixade hela morgonen! &#11088;&#65039;</p>
+    <div id="miniStars" class="mini-stars">&#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039;</div>
     <div id="results"></div>
-    <button id="again" class="primary">KÃR IGEN</button>
+    <button id="again" class="primary">K&#214;R IGEN</button>
   </section>
 
-  <div class="tip">V2.0 mÃ¤ter tiden och firar varje steg. Ingen stress â vi trÃ¤nar bara pÃ¥ rutinen.</div>
+  <div class="tip">V2.0 m&#228;ter tiden och firar varje steg. Ingen stress &#8211; vi tr&#228;nar bara p&#229; rutinen.</div>
 </div>
 
 <script>
 const steps=[
-  ["Vakna","ð","Dags att komma upp!"],
-  ["KlÃ¤ pÃ¥ dig","ð","Ta pÃ¥ dig dagens klÃ¤der."],
-  ["Ãta frukost","ð¥","Ãt din frukost i lugn och ro."],
-  ["Borsta tÃ¤nderna","ðª¥","Borsta tills tÃ¤nderna kÃ¤nns rena."],
-  ["KlÃ¤ pÃ¥ dig ytterklÃ¤der","ð§¥","Nu gÃ¶r vi oss redo att gÃ¥."],
-  ["Valfritt â om det finns tid Ã¶ver","ð®","Finns det tid? VÃ¤lj nÃ¥got roligt."]
+  ["Vakna","&#127749;","Dags att komma upp!"],
+  ["Kl&#228; p&#229; dig","&#128085;","Ta p&#229; dig dagens kl&#228;der."],
+  ["&#196;ta frukost","&#129374;","&#196;t din frukost i lugn och ro."],
+  ["Borsta t&#228;nderna","&#129701;","Borsta tills t&#228;nderna k&#228;nns rena."],
+  ["Kl&#228; p&#229; dig ytterkl&#228;der","&#129509;","Nu g&#246;r vi oss redo att g&#229;."],
+  ["Valfritt &#8211; om det finns tid &#246;ver","&#127918;","Finns det tid? V&#228;lj n&#229;got roligt."]
 ];
 
 let i=0,totalStart=0,stepStart=0,timer=null,times=[];
@@ -135,7 +135,7 @@ function drawDots(){
 
 function tick(){
   if(!totalStart)return;
-  $("total").textContent="â±ï¸ "+fmt(Date.now()-totalStart);
+  $("total").textContent="&#9201;&#65039; "+fmt(Date.now()-totalStart);
   $("stepTimer").textContent=fmt(Date.now()-stepStart);
 }
 
@@ -158,7 +158,7 @@ function render(){
 }
 
 function celebrate(){
-  const emojis=["â­ï¸","ð","â¨","ð","ð","ð«"];
+  const emojis=["&#11088;&#65039;","&#127881;","&#10024;","&#127775;","&#128640;","&#128171;"];
   for(let n=0;n<10;n++){
     const el=document.createElement("div");
     el.className="confetti";
@@ -177,7 +177,7 @@ function startRoutine(){
   $("welcome").classList.add("hidden");
   $("finish").classList.add("hidden");
   $("stepCard").classList.remove("hidden");
-  $("total").textContent="â±ï¸ 00:00";
+  $("total").textContent="&#9201;&#65039; 00:00";
   clearInterval(timer);
   timer=setInterval(tick,250);
   render();
@@ -198,7 +198,7 @@ function next(skipped){
     drawDots();
 
     $("results").innerHTML=times.map((x,n)=>
-      `<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"â":fmt(x.ms)}</b></div>`
+      `<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"&#8211;":fmt(x.ms)}</b></div>`
     ).join("")+
     `<div class="result total-result"><b>Total tid</b><b>${fmt(Date.now()-totalStart)}</b></div>`;
 
@@ -216,7 +216,7 @@ $("skip").onclick=()=>next(true);
 $("again").onclick=()=>{
   $("finish").classList.add("hidden");
   $("welcome").classList.remove("hidden");
-  $("total").textContent="â±ï¸ 00:00";
+  $("total").textContent="&#9201;&#65039; 00:00";
   $("bar").style.width="0%";
   $("progressText").textContent="Redo?";
   $("percent").textContent="0%";
