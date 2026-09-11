@@ -4,79 +4,226 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6c63d9">
-<title>Morgonrutiner</title>
+<title>Morgonrutiner v2</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#f8f6ff,#edfaff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#26324a}
-.app{max-width:680px;margin:auto;min-height:100vh;padding:18px 16px 28px}.header{text-align:center}.header h1{margin:5px 0;font-size:34px}.subtitle{color:#6c7890}
-.timer{display:inline-block;background:#fff;padding:8px 18px;border-radius:18px;font-size:27px;font-weight:800;margin:12px 0;box-shadow:0 5px 20px #0001}
-.progress{height:10px;background:#dedbf0;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:#6c63d9;transition:.25s}
-.card{margin-top:18px;background:#fff;border-radius:30px;padding:28px 20px;text-align:center;box-shadow:0 8px 28px #00000012}.icon{font-size:80px}.step{color:#6c7890;font-weight:800}.name{font-size:32px;font-weight:900;margin:6px}.clock{font-size:38px;margin:14px}.stepTimer{font-size:26px;font-weight:800}
-button{width:100%;border:0;border-radius:20px;padding:19px;margin-top:14px;font-size:21px;font-weight:850}.start,.done{background:#6c63d9;color:white}.done{background:#63b77a}.skip{background:#eef0f6;color:#26324a}
-.hidden{display:none}.result{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee}.result:last-child{border:0}.tip{text-align:center;color:#6c7890;font-size:14px;margin-top:14px}
+*{box-sizing:border-box}
+:root{
+  --purple:#6c63d9;--green:#63b77a;--ink:#26324a;--muted:#6c7890;
+  --bg1:#f8f6ff;--bg2:#edfaff
+}
+body{margin:0;background:linear-gradient(145deg,var(--bg1),var(--bg2));font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+.app{max-width:680px;margin:auto;min-height:100vh;padding:16px 16px 30px}
+.header{text-align:center}
+.header h1{margin:4px 0 2px;font-size:34px;line-height:1.1}
+.subtitle{color:var(--muted);font-size:16px}
+.total-wrap{display:flex;justify-content:center;margin:11px 0 12px}
+.timer{display:inline-flex;align-items:center;gap:8px;background:#fff;padding:8px 18px;border-radius:18px;font-size:27px;font-weight:900;box-shadow:0 5px 20px #0001}
+.progress{height:12px;background:#dedbf0;border-radius:20px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--purple);transition:width .35s ease}
+.progress-label{display:flex;justify-content:space-between;margin-top:7px;color:var(--muted);font-size:13px;font-weight:800}
+
+.card{margin-top:17px;background:#fff;border-radius:30px;padding:26px 20px;text-align:center;box-shadow:0 8px 28px #00000012}
+.hidden{display:none}
+.icon{font-size:86px;line-height:1;margin:8px 0 14px}
+.step{color:var(--muted);font-weight:900;letter-spacing:.3px}
+.name{font-size:32px;font-weight:950;margin:6px 0 12px;line-height:1.1}
+.hint{color:var(--muted);font-size:16px;margin:0 auto 14px;max-width:430px}
+.stepTimer{font-size:29px;font-weight:900;margin:5px 0 4px}
+.time-label{font-size:13px;color:var(--muted);font-weight:800}
+button{width:100%;border:0;border-radius:20px;padding:19px;margin-top:13px;font-size:21px;font-weight:900;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:active{transform:scale(.98)}
+.start,.primary{background:var(--purple);color:#fff}
+.done{background:var(--green);color:#fff;font-size:24px;padding:21px}
+.skip{background:#eef0f6;color:var(--ink)}
+.dots{display:flex;justify-content:center;gap:8px;margin:18px 0 4px}
+.dot{width:13px;height:13px;border-radius:50%;background:#dedbf0;transition:.25s}
+.dot.done{background:var(--green)}
+.dot.current{background:var(--purple);transform:scale(1.35)}
+.mini-stars{font-size:25px;letter-spacing:3px;margin-top:3px}
+
+.finish .icon{font-size:96px}
+.finish-title{font-size:36px;font-weight:950;margin:4px 0}
+.celebrate{font-size:19px;font-weight:850}
+.result{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid #eee;text-align:left}
+.result:last-child{border:0}
+.result span{overflow:hidden;text-overflow:ellipsis}
+.result b{white-space:nowrap}
+.total-result{font-size:18px;margin-top:4px}
+.tip{text-align:center;color:var(--muted);font-size:13px;margin:14px 8px 0}
+
+.confetti{position:fixed;left:50%;top:30%;pointer-events:none;font-size:30px;animation:fly 900ms ease-out forwards;z-index:10}
+@keyframes fly{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(.7) rotate(0)}
+  100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.2) rotate(var(--r))}
+}
+.pop{animation:pop .32s ease-out}
+@keyframes pop{0%{transform:scale(.94);opacity:.4}100%{transform:scale(1);opacity:1}}
+
+@media (max-width:420px){
+  .app{padding-left:12px;padding-right:12px}
+  .header h1{font-size:30px}
+  .name{font-size:29px}
+  .icon{font-size:78px}
+}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <h1>🌞 Morgonrutiner</h1>
-    <div class="subtitle">En sak i taget. Du klarar det! ❤️</div>
-    <div id="total" class="timer">00:00</div>
+    <h1>ð Morgonrutiner</h1>
+    <div class="subtitle">En sak i taget. Du klarar det! â¤ï¸</div>
+    <div class="total-wrap"><div id="total" class="timer">â±ï¸ 00:00</div></div>
     <div class="progress"><span id="bar"></span></div>
+    <div class="progress-label"><span id="progressText">Redo?</span><span id="percent">0%</span></div>
+    <div id="dots" class="dots"></div>
   </div>
 
   <section id="welcome" class="card">
-    <div class="icon">🚀</div><div class="name">Dags att starta!</div>
-    <p>Tryck när morgonen börjar.</p>
-    <button id="start" class="start">STARTA MORGONEN</button>
+    <div class="icon">ð</div>
+    <div class="name">Dags att starta!</div>
+    <p class="hint">Vi tar en sak i taget. NÃ¤r du Ã¤r klar trycker du pÃ¥ <b>KLAR!</b></p>
+    <button id="start" class="start">STARTA MORGONEN ð</button>
   </section>
 
   <section id="stepCard" class="card hidden">
     <div id="step" class="step"></div>
     <div id="icon" class="icon"></div>
     <div id="name" class="name"></div>
-    <div class="clock">⏱️</div>
+    <div id="hint" class="hint"></div>
+    <div class="time-label">TID PÃ DET HÃR STEGET</div>
     <div id="stepTimer" class="stepTimer">00:00</div>
-    <button id="done" class="done">✓ KLAR!</button>
-    <button id="skip" class="skip">Hoppa över</button>
+    <button id="done" class="done">â KLAR!</button>
+    <button id="skip" class="skip">Hoppa Ã¶ver</button>
   </section>
 
-  <section id="finish" class="card hidden">
-    <div class="icon">🎉</div><div class="name">Morgonen är klar!</div>
-    <p>Bra jobbat! ❤️</p><div id="results"></div>
-    <button id="again" class="start">KÖR IGEN</button>
+  <section id="finish" class="card finish hidden">
+    <div class="icon">ð</div>
+    <div class="finish-title">Morgonen Ã¤r klar!</div>
+    <p class="celebrate">Du fixade hela morgonen! â­ï¸</p>
+    <div id="miniStars" class="mini-stars">â­ï¸ â­ï¸ â­ï¸ â­ï¸ â­ï¸ â­ï¸</div>
+    <div id="results"></div>
+    <button id="again" class="primary">KÃR IGEN</button>
   </section>
-  <div class="tip">Första versionen mäter bara. När ni har några dagar kan vi lägga in era riktiga tider.</div>
+
+  <div class="tip">V2.0 mÃ¤ter tiden och firar varje steg. Ingen stress â vi trÃ¤nar bara pÃ¥ rutinen.</div>
 </div>
 
 <script>
 const steps=[
-["Vakna","🌅"],["Klä på dig","👕"],["Äta frukost","🥞"],
-["Borsta tänderna","🪥"],["Klä på dig ytterkläder","🧥"],
-["Valfritt – om det finns tid över","🎮"]
+  ["Vakna","ð","Dags att komma upp!"],
+  ["KlÃ¤ pÃ¥ dig","ð","Ta pÃ¥ dig dagens klÃ¤der."],
+  ["Ãta frukost","ð¥","Ãt din frukost i lugn och ro."],
+  ["Borsta tÃ¤nderna","ðª¥","Borsta tills tÃ¤nderna kÃ¤nns rena."],
+  ["KlÃ¤ pÃ¥ dig ytterklÃ¤der","ð§¥","Nu gÃ¶r vi oss redo att gÃ¥."],
+  ["Valfritt â om det finns tid Ã¶ver","ð®","Finns det tid? VÃ¤lj nÃ¥got roligt."]
 ];
+
 let i=0,totalStart=0,stepStart=0,timer=null,times=[];
 const $=id=>document.getElementById(id);
-const fmt=ms=>{let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")};
-function tick(){if(!totalStart)return;$("total").textContent=fmt(Date.now()-totalStart);$("stepTimer").textContent=fmt(Date.now()-stepStart)}
+
+const fmt=ms=>{
+  let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;
+  return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+};
+
+function drawDots(){
+  $("dots").innerHTML=steps.map((_,n)=>{
+    let cls=n<i?"dot done":n===i?"dot current":"dot";
+    return `<span class="${cls}"></span>`;
+  }).join("");
+}
+
+function tick(){
+  if(!totalStart)return;
+  $("total").textContent="â±ï¸ "+fmt(Date.now()-totalStart);
+  $("stepTimer").textContent=fmt(Date.now()-stepStart);
+}
+
 function render(){
- $("step").textContent=`STEG ${i+1} AV ${steps.length}`;$("icon").textContent=steps[i][1];$("name").textContent=steps[i][0];
- $("bar").style.width=(i/steps.length*100)+"%";tick();
+  $("step").textContent=`STEG ${i+1} AV ${steps.length}`;
+  $("icon").textContent=steps[i][1];
+  $("name").textContent=steps[i][0];
+  $("hint").textContent=steps[i][2];
+
+  const pct=Math.round(i/steps.length*100);
+  $("bar").style.width=pct+"%";
+  $("progressText").textContent=`${i} av ${steps.length} klara`;
+  $("percent").textContent=pct+"%";
+  drawDots();
+
+  $("stepCard").classList.remove("pop");
+  void $("stepCard").offsetWidth;
+  $("stepCard").classList.add("pop");
+  tick();
 }
+
+function celebrate(){
+  const emojis=["â­ï¸","ð","â¨","ð","ð","ð«"];
+  for(let n=0;n<10;n++){
+    const el=document.createElement("div");
+    el.className="confetti";
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.setProperty("--x",(Math.random()*360-180)+"px");
+    el.style.setProperty("--y",(Math.random()*-300-80)+"px");
+    el.style.setProperty("--r",(Math.random()*360-180)+"deg");
+    el.style.animationDelay=(Math.random()*180)+"ms";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1200);
+  }
+}
+
 function startRoutine(){
- i=0;times=[];totalStart=Date.now();stepStart=totalStart;
- $("welcome").classList.add("hidden");$("finish").classList.add("hidden");$("stepCard").classList.remove("hidden");
- clearInterval(timer);timer=setInterval(tick,250);render();
+  i=0;times=[];totalStart=Date.now();stepStart=totalStart;
+  $("welcome").classList.add("hidden");
+  $("finish").classList.add("hidden");
+  $("stepCard").classList.remove("hidden");
+  $("total").textContent="â±ï¸ 00:00";
+  clearInterval(timer);
+  timer=setInterval(tick,250);
+  render();
 }
+
 function next(skipped){
- times.push({name:steps[i][0],ms:Date.now()-stepStart,skipped});i++;
- if(i>=steps.length){
-   clearInterval(timer);timer=null;$("stepCard").classList.add("hidden");$("finish").classList.remove("hidden");$("bar").style.width="100%";
-   $("results").innerHTML=times.map((x,n)=>`<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"–":fmt(x.ms)}</b></div>`).join("")+
-   `<div class="result"><b>Total tid</b><b>${fmt(Date.now()-totalStart)}</b></div>`;
- }else{stepStart=Date.now();render()}
+  times.push({name:steps[i][0],ms:Date.now()-stepStart,skipped});
+  if(!skipped) celebrate();
+  i++;
+
+  if(i>=steps.length){
+    clearInterval(timer);timer=null;
+    $("stepCard").classList.add("hidden");
+    $("finish").classList.remove("hidden");
+    $("bar").style.width="100%";
+    $("progressText").textContent="6 av 6 klara";
+    $("percent").textContent="100%";
+    drawDots();
+
+    $("results").innerHTML=times.map((x,n)=>
+      `<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"â":fmt(x.ms)}</b></div>`
+    ).join("")+
+    `<div class="result total-result"><b>Total tid</b><b>${fmt(Date.now()-totalStart)}</b></div>`;
+
+    celebrate();
+    setTimeout(celebrate,220);
+  }else{
+    stepStart=Date.now();
+    render();
+  }
 }
-$("start").onclick=startRoutine;$("done").onclick=()=>next(false);$("skip").onclick=()=>next(true);
-$("again").onclick=()=>{ $("finish").classList.add("hidden");$("welcome").classList.remove("hidden");$("total").textContent="00:00";$("bar").style.width="0%"};
+
+$("start").onclick=startRoutine;
+$("done").onclick=()=>next(false);
+$("skip").onclick=()=>next(true);
+$("again").onclick=()=>{
+  $("finish").classList.add("hidden");
+  $("welcome").classList.remove("hidden");
+  $("total").textContent="â±ï¸ 00:00";
+  $("bar").style.width="0%";
+  $("progressText").textContent="Redo?";
+  $("percent").textContent="0%";
+  i=0;drawDots();
+};
+
+drawDots();
 </script>
 </body>
 </html>
