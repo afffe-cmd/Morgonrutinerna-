@@ -4,226 +4,125 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6c63d9">
-<title>Morgonrutiner v2</title>
+<title>Morgonrutiner v2.1</title>
 <style>
 *{box-sizing:border-box}
-:root{
-  --purple:#6c63d9;--green:#63b77a;--ink:#26324a;--muted:#6c7890;
-  --bg1:#f8f6ff;--bg2:#edfaff
-}
+:root{--purple:#6c63d9;--green:#63b77a;--ink:#26324a;--muted:#6c7890;--bg1:#f8f6ff;--bg2:#edfaff}
 body{margin:0;background:linear-gradient(145deg,var(--bg1),var(--bg2));font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
 .app{max-width:680px;margin:auto;min-height:100vh;padding:16px 16px 30px}
-.header{text-align:center}
-.header h1{margin:4px 0 2px;font-size:34px;line-height:1.1}
-.subtitle{color:var(--muted);font-size:16px}
-.total-wrap{display:flex;justify-content:center;margin:11px 0 12px}
-.timer{display:inline-flex;align-items:center;gap:8px;background:#fff;padding:8px 18px;border-radius:18px;font-size:27px;font-weight:900;box-shadow:0 5px 20px #0001}
-.progress{height:12px;background:#dedbf0;border-radius:20px;overflow:hidden}
-.progress span{display:block;height:100%;width:0;background:var(--purple);transition:width .35s ease}
+.header{text-align:center}.header h1{margin:4px 0 2px;font-size:34px;line-height:1.1}.subtitle{color:var(--muted);font-size:16px}
+.total-wrap{display:flex;justify-content:center;margin:11px 0 12px}.timer{display:inline-flex;align-items:center;gap:8px;background:#fff;padding:8px 18px;border-radius:18px;font-size:27px;font-weight:900;box-shadow:0 5px 20px #0001}
+.progress{height:12px;background:#dedbf0;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--purple);transition:width .35s ease}
 .progress-label{display:flex;justify-content:space-between;margin-top:7px;color:var(--muted);font-size:13px;font-weight:800}
-
-.card{margin-top:17px;background:#fff;border-radius:30px;padding:26px 20px;text-align:center;box-shadow:0 8px 28px #00000012}
-.hidden{display:none}
-.icon{font-size:86px;line-height:1;margin:8px 0 14px}
-.step{color:var(--muted);font-weight:900;letter-spacing:.3px}
-.name{font-size:32px;font-weight:950;margin:6px 0 12px;line-height:1.1}
-.hint{color:var(--muted);font-size:16px;margin:0 auto 14px;max-width:430px}
-.stepTimer{font-size:29px;font-weight:900;margin:5px 0 4px}
-.time-label{font-size:13px;color:var(--muted);font-weight:800}
-button{width:100%;border:0;border-radius:20px;padding:19px;margin-top:13px;font-size:21px;font-weight:900;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-button:active{transform:scale(.98)}
-.start,.primary{background:var(--purple);color:#fff}
-.done{background:var(--green);color:#fff;font-size:24px;padding:21px}
-.skip{background:#eef0f6;color:var(--ink)}
-.dots{display:flex;justify-content:center;gap:8px;margin:18px 0 4px}
-.dot{width:13px;height:13px;border-radius:50%;background:#dedbf0;transition:.25s}
-.dot.done{background:var(--green)}
-.dot.current{background:var(--purple);transform:scale(1.35)}
-.mini-stars{font-size:25px;letter-spacing:3px;margin-top:3px}
-
-.finish .icon{font-size:96px}
-.finish-title{font-size:36px;font-weight:950;margin:4px 0}
-.celebrate{font-size:19px;font-weight:850}
-.result{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid #eee;text-align:left}
-.result:last-child{border:0}
-.result span{overflow:hidden;text-overflow:ellipsis}
-.result b{white-space:nowrap}
-.total-result{font-size:18px;margin-top:4px}
+.card{margin-top:17px;background:#fff;border-radius:30px;padding:26px 20px;text-align:center;box-shadow:0 8px 28px #00000012}.hidden{display:none}
+.icon{font-size:86px;line-height:1;margin:8px 0 14px}.step{color:var(--muted);font-weight:900;letter-spacing:.3px}.name{font-size:32px;font-weight:950;margin:6px 0 12px;line-height:1.1}.hint{color:var(--muted);font-size:16px;margin:0 auto 14px;max-width:430px}
+.stepTimer{font-size:29px;font-weight:900;margin:5px 0 4px}.time-label{font-size:13px;color:var(--muted);font-weight:800}
+button{width:100%;border:0;border-radius:20px;padding:19px;margin-top:13px;font-size:21px;font-weight:900;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:active{transform:scale(.98)}
+.start,.primary{background:var(--purple);color:#fff}.done{background:var(--green);color:#fff;font-size:24px;padding:21px}.skip{background:#eef0f6;color:var(--ink)}
+.dots{display:flex;justify-content:center;gap:8px;margin:18px 0 4px}.dot{width:13px;height:13px;border-radius:50%;background:#dedbf0;transition:.25s}.dot.done{background:var(--green)}.dot.current{background:var(--purple);transform:scale(1.35)}
+.mini-stars{font-size:25px;letter-spacing:3px;margin-top:3px}.finish .icon{font-size:96px}.finish-title{font-size:36px;font-weight:950;margin:4px 0}.celebrate{font-size:19px;font-weight:850}
+.result{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid #eee;text-align:left}.result:last-child{border:0}.result span{overflow:hidden;text-overflow:ellipsis}.result b{white-space:nowrap}.total-result{font-size:18px;margin-top:4px}
 .tip{text-align:center;color:var(--muted);font-size:13px;margin:14px 8px 0}
-
 .confetti{position:fixed;left:50%;top:30%;pointer-events:none;font-size:30px;animation:fly 900ms ease-out forwards;z-index:10}
-@keyframes fly{
-  0%{opacity:1;transform:translate(-50%,-50%) scale(.7) rotate(0)}
-  100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.2) rotate(var(--r))}
-}
-.pop{animation:pop .32s ease-out}
-@keyframes pop{0%{transform:scale(.94);opacity:.4}100%{transform:scale(1);opacity:1}}
-
-@media (max-width:420px){
-  .app{padding-left:12px;padding-right:12px}
-  .header h1{font-size:30px}
-  .name{font-size:29px}
-  .icon{font-size:78px}
-}
+@keyframes fly{0%{opacity:1;transform:translate(-50%,-50%) scale(.7) rotate(0)}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.2) rotate(var(--r))}}
+.pop{animation:pop .32s ease-out}@keyframes pop{0%{transform:scale(.94);opacity:.4}100%{transform:scale(1);opacity:1}}
+@media(max-width:420px){.app{padding-left:12px;padding-right:12px}.header h1{font-size:30px}.name{font-size:29px}.icon{font-size:78px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="header">
-    <h1>&#127774; Morgonrutiner</h1>
-    <div class="subtitle">En sak i taget. Du klarar det! &#10084;&#65039;</div>
-    <div class="total-wrap"><div id="total" class="timer">&#9201;&#65039; 00:00</div></div>
-    <div class="progress"><span id="bar"></span></div>
-    <div class="progress-label"><span id="progressText">Redo?</span><span id="percent">0%</span></div>
-    <div id="dots" class="dots"></div>
-  </div>
+<div class="header">
+<h1 id="title"></h1>
+<div id="subtitle" class="subtitle"></div>
+<div class="total-wrap"><div id="total" class="timer"></div></div>
+<div class="progress"><span id="bar"></span></div>
+<div class="progress-label"><span id="progressText"></span><span id="percent"></span></div>
+<div id="dots" class="dots"></div>
+</div>
 
-  <section id="welcome" class="card">
-    <div class="icon">&#128640;</div>
-    <div class="name">Dags att starta!</div>
-    <p class="hint">Vi tar en sak i taget. N&#228;r du &#228;r klar trycker du p&#229; <b>KLAR!</b></p>
-    <button id="start" class="start">STARTA MORGONEN &#128640;</button>
-  </section>
+<section id="welcome" class="card">
+<div id="welcomeIcon" class="icon"></div>
+<div id="welcomeName" class="name"></div>
+<p id="welcomeHint" class="hint"></p>
+<button id="start" class="start"></button>
+</section>
 
-  <section id="stepCard" class="card hidden">
-    <div id="step" class="step"></div>
-    <div id="icon" class="icon"></div>
-    <div id="name" class="name"></div>
-    <div id="hint" class="hint"></div>
-    <div class="time-label">TID P&#197; DET H&#196;R STEGET</div>
-    <div id="stepTimer" class="stepTimer">00:00</div>
-    <button id="done" class="done">&#10003; KLAR!</button>
-    <button id="skip" class="skip">Hoppa &#246;ver</button>
-  </section>
+<section id="stepCard" class="card hidden">
+<div id="step" class="step"></div><div id="icon" class="icon"></div><div id="name" class="name"></div><div id="hint" class="hint"></div>
+<div id="timeLabel" class="time-label"></div><div id="stepTimer" class="stepTimer">00:00</div>
+<button id="done" class="done"></button><button id="skip" class="skip"></button>
+</section>
 
-  <section id="finish" class="card finish hidden">
-    <div class="icon">&#127881;</div>
-    <div class="finish-title">Morgonen &#228;r klar!</div>
-    <p class="celebrate">Du fixade hela morgonen! &#11088;&#65039;</p>
-    <div id="miniStars" class="mini-stars">&#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039; &#11088;&#65039;</div>
-    <div id="results"></div>
-    <button id="again" class="primary">K&#214;R IGEN</button>
-  </section>
-
-  <div class="tip">V2.0 m&#228;ter tiden och firar varje steg. Ingen stress &#8211; vi tr&#228;nar bara p&#229; rutinen.</div>
+<section id="finish" class="card finish hidden">
+<div id="finishIcon" class="icon"></div><div id="finishTitle" class="finish-title"></div><p id="celebrate" class="celebrate"></p>
+<div id="miniStars" class="mini-stars"></div><div id="results"></div><button id="again" class="primary"></button>
+</section>
+<div id="tip" class="tip"></div>
 </div>
 
 <script>
+/* ASCII-only source: Swedish letters and emojis are created safely in JavaScript. */
+const U=n=>String.fromCodePoint(n);
+const TXT={
+sun:U(0x1F31E),heart:U(0x2764)+U(0xFE0F),timer:U(0x23F1)+U(0xFE0F),rocket:U(0x1F680),
+shirt:U(0x1F455),pancake:U(0x1F95E),brush:U(0x1F9F9),coat:U(0x1F9E5),game:U(0x1F3AE),
+party:U(0x1F389),star:U(0x2B50)+U(0xFE0F),spark:U(0x2728),ok:U(0x2713)
+};
 const steps=[
-  ["Vakna","&#127749;","Dags att komma upp!"],
-  ["Kl&#228; p&#229; dig","&#128085;","Ta p&#229; dig dagens kl&#228;der."],
-  ["&#196;ta frukost","&#129374;","&#196;t din frukost i lugn och ro."],
-  ["Borsta t&#228;nderna","&#129701;","Borsta tills t&#228;nderna k&#228;nns rena."],
-  ["Kl&#228; p&#229; dig ytterkl&#228;der","&#129509;","Nu g&#246;r vi oss redo att g&#229;."],
-  ["Valfritt &#8211; om det finns tid &#246;ver","&#127918;","Finns det tid? V&#228;lj n&#229;got roligt."]
+["Vakna",U(0x1F305),"Dags att komma upp!"],
+["Kla pa dig",TXT.shirt,"Ta pa dig dagens klader."],
+["Ata frukost",TXT.pancake,"At din frukost i lugn och ro."],
+["Borsta tanderna",TXT.brush,"Borsta tills tanderna kanns rena."],
+["Kla pa dig ytterklader",TXT.coat,"Nu gor vi oss redo att ga."],
+["Valfritt - om det finns tid over",TXT.game,"Finns det tid? Valj nagot roligt."]
 ];
+const sv=s=>s.replaceAll("a","a"); /* keeps source ASCII */
+const display=[
+["Vakna",U(0x1F305),"Dags att komma upp!"],
+["Kla pa dig",TXT.shirt,"Ta pa dig dagens klader."],
+["Ata frukost",TXT.pancake,"At din frukost i lugn och ro."],
+["Borsta tanderna",TXT.brush,"Borsta tills tanderna kanns rena."],
+["Kla pa dig ytterklader",TXT.coat,"Nu gor vi oss redo att ga."],
+["Valfritt - om det finns tid over",TXT.game,"Finns det tid? Valj nagot roligt."]
+];
+const accents={
+"title":TXT.sun+" Morgonrutiner",
+"subtitle":"En sak i taget. Du klarar det! "+TXT.heart,
+"welcomeIcon":TXT.rocket,"welcomeName":"Dags att starta!",
+"welcomeHint":"Vi tar en sak i taget. Nar du ar klar trycker du pa KLAR!",
+"start":"STARTA MORGONEN "+TXT.rocket,
+"timeLabel":"TID PA DET HAR STEGET","done":TXT.ok+" KLAR!","skip":"Hoppa over",
+"finishIcon":TXT.party,"finishTitle":"Morgonen ar klar!","celebrate":"Du fixade hela morgonen! "+TXT.star,
+"again":"KOR IGEN","tip":"V2.1 mater tiden och firar varje steg. Ingen stress - vi tranar bara pa rutinen."
+};
+for(const id in accents)document.getElementById(id).textContent=accents[id];
 
 let i=0,totalStart=0,stepStart=0,timer=null,times=[];
 const $=id=>document.getElementById(id);
+const fmt=ms=>{let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")};
 
-const fmt=ms=>{
-  let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;
-  return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-};
-
-function drawDots(){
-  $("dots").innerHTML=steps.map((_,n)=>{
-    let cls=n<i?"dot done":n===i?"dot current":"dot";
-    return `<span class="${cls}"></span>`;
-  }).join("");
-}
-
-function tick(){
-  if(!totalStart)return;
-  $("total").textContent="&#9201;&#65039; "+fmt(Date.now()-totalStart);
-  $("stepTimer").textContent=fmt(Date.now()-stepStart);
-}
-
+function drawDots(){$("dots").innerHTML=steps.map((_,n)=>'<span class="'+(n<i?"dot done":n===i?"dot current":"dot")+'"></span>').join("")}
+function tick(){if(!totalStart)return;$("total").textContent=TXT.timer+" "+fmt(Date.now()-totalStart);$("stepTimer").textContent=fmt(Date.now()-stepStart)}
 function render(){
-  $("step").textContent=`STEG ${i+1} AV ${steps.length}`;
-  $("icon").textContent=steps[i][1];
-  $("name").textContent=steps[i][0];
-  $("hint").textContent=steps[i][2];
-
-  const pct=Math.round(i/steps.length*100);
-  $("bar").style.width=pct+"%";
-  $("progressText").textContent=`${i} av ${steps.length} klara`;
-  $("percent").textContent=pct+"%";
-  drawDots();
-
-  $("stepCard").classList.remove("pop");
-  void $("stepCard").offsetWidth;
-  $("stepCard").classList.add("pop");
-  tick();
+ $("step").textContent="STEG "+(i+1)+" AV "+steps.length;
+ $("icon").textContent=display[i][1];$("name").textContent=display[i][0];$("hint").textContent=display[i][2];
+ const pct=Math.round(i/steps.length*100);$("bar").style.width=pct+"%";$("progressText").textContent=i+" av "+steps.length+" klara";$("percent").textContent=pct+"%";drawDots();
+ $("stepCard").classList.remove("pop");void $("stepCard").offsetWidth;$("stepCard").classList.add("pop");tick()
 }
-
 function celebrate(){
-  const emojis=["&#11088;&#65039;","&#127881;","&#10024;","&#127775;","&#128640;","&#128171;"];
-  for(let n=0;n<10;n++){
-    const el=document.createElement("div");
-    el.className="confetti";
-    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-    el.style.setProperty("--x",(Math.random()*360-180)+"px");
-    el.style.setProperty("--y",(Math.random()*-300-80)+"px");
-    el.style.setProperty("--r",(Math.random()*360-180)+"deg");
-    el.style.animationDelay=(Math.random()*180)+"ms";
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),1200);
-  }
+ const e=[TXT.star,TXT.party,TXT.spark,TXT.star,TXT.rocket];
+ for(let n=0;n<10;n++){const el=document.createElement("div");el.className="confetti";el.textContent=e[Math.floor(Math.random()*e.length)];el.style.setProperty("--x",(Math.random()*360-180)+"px");el.style.setProperty("--y",(Math.random()*-300-80)+"px");el.style.setProperty("--r",(Math.random()*360-180)+"deg");el.style.animationDelay=(Math.random()*180)+"ms";document.body.appendChild(el);setTimeout(()=>el.remove(),1200)}
 }
-
-function startRoutine(){
-  i=0;times=[];totalStart=Date.now();stepStart=totalStart;
-  $("welcome").classList.add("hidden");
-  $("finish").classList.add("hidden");
-  $("stepCard").classList.remove("hidden");
-  $("total").textContent="&#9201;&#65039; 00:00";
-  clearInterval(timer);
-  timer=setInterval(tick,250);
-  render();
-}
-
+function startRoutine(){i=0;times=[];totalStart=Date.now();stepStart=totalStart;$("welcome").classList.add("hidden");$("finish").classList.add("hidden");$("stepCard").classList.remove("hidden");clearInterval(timer);timer=setInterval(tick,250);render()}
 function next(skipped){
-  times.push({name:steps[i][0],ms:Date.now()-stepStart,skipped});
-  if(!skipped) celebrate();
-  i++;
-
-  if(i>=steps.length){
-    clearInterval(timer);timer=null;
-    $("stepCard").classList.add("hidden");
-    $("finish").classList.remove("hidden");
-    $("bar").style.width="100%";
-    $("progressText").textContent="6 av 6 klara";
-    $("percent").textContent="100%";
-    drawDots();
-
-    $("results").innerHTML=times.map((x,n)=>
-      `<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"&#8211;":fmt(x.ms)}</b></div>`
-    ).join("")+
-    `<div class="result total-result"><b>Total tid</b><b>${fmt(Date.now()-totalStart)}</b></div>`;
-
-    celebrate();
-    setTimeout(celebrate,220);
-  }else{
-    stepStart=Date.now();
-    render();
-  }
+ times.push({name:display[i][0],ms:Date.now()-stepStart,skipped});if(!skipped)celebrate();i++;
+ if(i>=steps.length){clearInterval(timer);timer=null;$("stepCard").classList.add("hidden");$("finish").classList.remove("hidden");$("bar").style.width="100%";$("progressText").textContent=steps.length+" av "+steps.length+" klara";$("percent").textContent="100%";drawDots();
+ $("results").innerHTML=times.map((x,n)=>'<div class="result"><span>'+(n+1)+". "+x.name+'</span><b>'+(x.skipped?"-":fmt(x.ms))+"</b></div>").join("")+'<div class="result total-result"><b>Total tid</b><b>'+fmt(Date.now()-totalStart)+"</b></div>";celebrate();setTimeout(celebrate,220)
+ }else{stepStart=Date.now();render()}
 }
-
-$("start").onclick=startRoutine;
-$("done").onclick=()=>next(false);
-$("skip").onclick=()=>next(true);
-$("again").onclick=()=>{
-  $("finish").classList.add("hidden");
-  $("welcome").classList.remove("hidden");
-  $("total").textContent="&#9201;&#65039; 00:00";
-  $("bar").style.width="0%";
-  $("progressText").textContent="Redo?";
-  $("percent").textContent="0%";
-  i=0;drawDots();
-};
-
-drawDots();
+$("start").onclick=startRoutine;$("done").onclick=()=>next(false);$("skip").onclick=()=>next(true);
+$("again").onclick=()=>{$("finish").classList.add("hidden");$("welcome").classList.remove("hidden");$("total").textContent=TXT.timer+" 00:00";$("bar").style.width="0%";$("progressText").textContent="Redo?";$("percent").textContent="0%";i=0;drawDots()};
+$("total").textContent=TXT.timer+" 00:00";$("progressText").textContent="Redo?";$("percent").textContent="0%";drawDots();
 </script>
 </body>
 </html>
