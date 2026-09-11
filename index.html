@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6c63d9">
+<title>Morgonrutiner</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#f8f6ff,#edfaff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#26324a}
+.app{max-width:680px;margin:auto;min-height:100vh;padding:18px 16px 28px}.header{text-align:center}.header h1{margin:5px 0;font-size:34px}.subtitle{color:#6c7890}
+.timer{display:inline-block;background:#fff;padding:8px 18px;border-radius:18px;font-size:27px;font-weight:800;margin:12px 0;box-shadow:0 5px 20px #0001}
+.progress{height:10px;background:#dedbf0;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:#6c63d9;transition:.25s}
+.card{margin-top:18px;background:#fff;border-radius:30px;padding:28px 20px;text-align:center;box-shadow:0 8px 28px #00000012}.icon{font-size:80px}.step{color:#6c7890;font-weight:800}.name{font-size:32px;font-weight:900;margin:6px}.clock{font-size:38px;margin:14px}.stepTimer{font-size:26px;font-weight:800}
+button{width:100%;border:0;border-radius:20px;padding:19px;margin-top:14px;font-size:21px;font-weight:850}.start,.done{background:#6c63d9;color:white}.done{background:#63b77a}.skip{background:#eef0f6;color:#26324a}
+.hidden{display:none}.result{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee}.result:last-child{border:0}.tip{text-align:center;color:#6c7890;font-size:14px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>🌞 Morgonrutiner</h1>
+    <div class="subtitle">En sak i taget. Du klarar det! ❤️</div>
+    <div id="total" class="timer">00:00</div>
+    <div class="progress"><span id="bar"></span></div>
+  </div>
+
+  <section id="welcome" class="card">
+    <div class="icon">🚀</div><div class="name">Dags att starta!</div>
+    <p>Tryck när morgonen börjar.</p>
+    <button id="start" class="start">STARTA MORGONEN</button>
+  </section>
+
+  <section id="stepCard" class="card hidden">
+    <div id="step" class="step"></div>
+    <div id="icon" class="icon"></div>
+    <div id="name" class="name"></div>
+    <div class="clock">⏱️</div>
+    <div id="stepTimer" class="stepTimer">00:00</div>
+    <button id="done" class="done">✓ KLAR!</button>
+    <button id="skip" class="skip">Hoppa över</button>
+  </section>
+
+  <section id="finish" class="card hidden">
+    <div class="icon">🎉</div><div class="name">Morgonen är klar!</div>
+    <p>Bra jobbat! ❤️</p><div id="results"></div>
+    <button id="again" class="start">KÖR IGEN</button>
+  </section>
+  <div class="tip">Första versionen mäter bara. När ni har några dagar kan vi lägga in era riktiga tider.</div>
+</div>
+
+<script>
+const steps=[
+["Vakna","🌅"],["Klä på dig","👕"],["Äta frukost","🥞"],
+["Borsta tänderna","🪥"],["Klä på dig ytterkläder","🧥"],
+["Valfritt – om det finns tid över","🎮"]
+];
+let i=0,totalStart=0,stepStart=0,timer=null,times=[];
+const $=id=>document.getElementById(id);
+const fmt=ms=>{let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")};
+function tick(){if(!totalStart)return;$("total").textContent=fmt(Date.now()-totalStart);$("stepTimer").textContent=fmt(Date.now()-stepStart)}
+function render(){
+ $("step").textContent=`STEG ${i+1} AV ${steps.length}`;$("icon").textContent=steps[i][1];$("name").textContent=steps[i][0];
+ $("bar").style.width=(i/steps.length*100)+"%";tick();
+}
+function startRoutine(){
+ i=0;times=[];totalStart=Date.now();stepStart=totalStart;
+ $("welcome").classList.add("hidden");$("finish").classList.add("hidden");$("stepCard").classList.remove("hidden");
+ clearInterval(timer);timer=setInterval(tick,250);render();
+}
+function next(skipped){
+ times.push({name:steps[i][0],ms:Date.now()-stepStart,skipped});i++;
+ if(i>=steps.length){
+   clearInterval(timer);timer=null;$("stepCard").classList.add("hidden");$("finish").classList.remove("hidden");$("bar").style.width="100%";
+   $("results").innerHTML=times.map((x,n)=>`<div class="result"><span>${n+1}. ${x.name}</span><b>${x.skipped?"–":fmt(x.ms)}</b></div>`).join("")+
+   `<div class="result"><b>Total tid</b><b>${fmt(Date.now()-totalStart)}</b></div>`;
+ }else{stepStart=Date.now();render()}
+}
+$("start").onclick=startRoutine;$("done").onclick=()=>next(false);$("skip").onclick=()=>next(true);
+$("again").onclick=()=>{ $("finish").classList.add("hidden");$("welcome").classList.remove("hidden");$("total").textContent="00:00";$("bar").style.width="0%"};
+</script>
+</body>
+</html>
